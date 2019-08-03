@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require('../fpdf16/fpdf.php');
+    require('../../fpdf16/fpdf.php');
     class PDF extends FPDF
     {
         function __construct()
@@ -14,8 +14,8 @@
     //('mm','p't, 'cm', 'in')
     $pdf = new PDF('P','cm','A4');
 
-    include("conexion.php");
-    $conexion = $conn;
+    //include("conexion.php");
+    //$conexion = $conn;
     $linea=0; $sw=0; $me_asignado=0; $mt_asignado=0;
     $m_codestpro1=""; $m_codestpro2=""; $m_codestpro3=""; $m_codestpro4=""; $m_codestpro5="";
 
@@ -25,6 +25,10 @@
     $pdf->SetLeftMargin(4.5);
     $pdf->AliasNbPages();
     $pdf->SetFont('Times','',9);
+
+    require("../clases/clase_sfp_reportes.php");
+    $resultado=uf_sfp_asignacion_presupuestaria_estructura();
+    /*
     // Este SELECT es para hacer hacer el detalle de los intereses
     $sql = "SELECT ".
                "SUBSTRING(codestpro1,24,2) AS codestpro1, ".
@@ -43,6 +47,7 @@
                "codestpro2, ".
                "spg_cuenta ";
     $resultado = pg_query($conexion,$sql);
+    */
     if($resultado===false)
 	  {
             echo "<script type=\"text/javascript\">alert('Advertencia, No existen registros para mostrar...');</script>";
@@ -93,10 +98,10 @@
                   //Imprimir rectangulo
                   $pdf->Rect(1,1,214,277);
                   //Imprimir Logos cabeceras
-                  $pdf->Image('../imagenes/logo_maderas_orinoco.jpg',194,2,14,14);
-                  $pdf->Image('../imagenes/corpoforestal.jpg',2,2,17,17); // Agregar Logo MAT
+                  $pdf->Image('../../imagenes/logo_maderas_orinoco.jpg',194,2,14,14);
+                  $pdf->Image('../../imagenes/corpoforestal.jpg',2,2,17,17); // Agregar Logo MAT
                   //Imprimir pie de paginas
-                  $pdf->Image('../imagenes/GobHeader.jpg',2,259,210,15); // Agregar Pie de pagina proforca
+                  $pdf->Image('../../imagenes/GobHeader.jpg',2,259,210,15); // Agregar Pie de pagina proforca
 
                   $linea=$linea+8;
                   $pdf->SetXY(50,$linea);
